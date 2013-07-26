@@ -17,10 +17,17 @@
 
 	*/
 #include "GemGame.h"
-
+#include "Gem.h"
+#include "Rectangle.h"
+#include "Graphics/Color.h"
+#include "stdlib.h"
+#include <vector>
 using namespace MINX_GEMGAME;
+using namespace MINX;
+using namespace MINX::Graphics;
+using namespace std;
 
-
+vector<Gem> gems;
 GemGame::GemGame()
 {
 	//This is the constructor. Put stuff here that should happen when the Game is created.
@@ -31,6 +38,10 @@ void GemGame::Initialize()
 {
 	//Put stuff here that should happen when the Game is initialized.
 	Game::Initialize();
+	for(int i =0; i < 10; i++)
+	{
+		gems.insert(gems.begin(), Gem(rand() % 624, rand() % 464));
+	}
 }
 
 void GemGame::LoadContent()
@@ -54,5 +65,9 @@ void GemGame::Update(GameTime * gametime)
 void GemGame::Draw(GameTime * gametime)
 {
 	//Put stuff here to draw your game each frame.
+	for(auto &gem : gems)
+	{
+		gem->Draw(gameTime, gameWindow);
+	}
 	Game::Draw(gametime);
 }
