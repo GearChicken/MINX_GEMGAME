@@ -17,23 +17,28 @@
 
 	*/
 #include "Game.h"
+#include "Gem.h"
 #include "GameTime.h"
 #include "Rectangle.h"
 #include "Graphics/Color.h"
 #include "Graphics/Primitives.h"
-#ifndef GEM_H_
-#define GEM_H_
+#include "Input/Keyboard.h"
+#ifndef PLAYER_H_
+#define PLAYER_H_
 
 using namespace MINX;
 using namespace MINX::Graphics;
+using namespace MINX::Input;
 
 namespace MINX_GEMGAME
 {
-	class Gem
+	class Player
 	{
 		public:
-			Gem(int X, int Y, Color* color);
+			Player(int X, int Y);
+			void Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems, int * score);
 			void Draw(GameTime * gametime, SDL_Surface* screen);
+		private:
 			Rectangle* rect;
 			Color* color;
 	};

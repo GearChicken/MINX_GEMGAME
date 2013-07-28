@@ -17,20 +17,58 @@
 
 	*/
 #include "GemGame.h"
+#include "Point.h"
 #include "Gem.h"
+#include "Player.h"
 #include "Rectangle.h"
 #include "Graphics/Color.h"
 #include "stdlib.h"
+#include "Input/Keyboard.h"
 #include <vector>
+#include <string>
+#include <algorithm>
+#include <iostream>
 using namespace MINX_GEMGAME;
 using namespace MINX;
 using namespace MINX::Graphics;
 using namespace std;
 
-vector<Gem> gems;
+vector<Gem*> * gems;
+Player* player;
+int gemsCollected=0;
+string intToBinary(int number)
+{
+	string result;
+	do result.push_back('0' + (number & 1));
+	while (number >>=1);
+	
+	reverse(result.begin(), result.end());
+	return result;
+}
+void drawScore(string scoreString, Point drawingPoint, GameWindow* gameWindow)
+{
+	for(string::size_type i = 0; i < scoreString.size(); ++i)
+	{
+		if(scoreString[i] == *"0")
+		{
+			Graphics::Primitives::drawOutlineRectangle(new Graphics::Color(255,255,255,255), drawingPoint.X + i*10, drawingPoint.Y, 5, 10, gameWindow->screen);
+		}
+		if(scoreString[i] == *"1")
+		{
+			Graphics::Primitives::drawRectangle(new Graphics::Color(255,255,255,255), drawingPoint.X + i*10, drawingPoint.Y, 5, 10, gameWindow->screen);
+		}
+	}
+}
+void drawScores(GameWindow* gameWindow)
+{
+	drawScore(intToBinary(gemsCollected), Point(50,50), gameWindow);
+}
 GemGame::GemGame()
 {
+	desiredFPS = 120;
+	srand(time(NULL));
 	//This is the constructor. Put stuff here that should happen when the Game is created.
+	gems = new vector<Gem*>();	
 	isRunning = true;
 }
 
@@ -38,10 +76,14 @@ void GemGame::Initialize()
 {
 	//Put stuff here that should happen when the Game is initialized.
 	Game::Initialize();
-	for(int i =0; i < 10; i++)
+	cout << "Game inited!\n";
+	for(int i =0; i < 1000; i++)
 	{
-		gems.insert(gems.begin(), Gem(rand() % 624, rand() % 464));
+		gems->push_back(new Gem(rand() % 624, rand() % 464, new Color(255,255,0,0)));
 	}
+	player = new Player(50,50);
+	keyboard= new Input::Keyboard(this);
+	cout << "gems made!\n";
 }
 
 void GemGame::LoadContent()
@@ -56,18 +98,25 @@ void GemGame::UnloadContent()
 	Game::UnloadContent();
 }
 
-void GemGame::Update(GameTime * gametime)
+void GemGame::Update(GameTime * gameTime)
 {
 	//Put stuff here to update the logic in your game each tick.
-	Game::Update(gametime);
+	Game::Update(gameTime);
+	cout << "game update!\n";
+	player->Update(gameTime, keyboard, gems, &gemsCollected);
+	//SDL_Delay(50);
 }
 
-void GemGame::Draw(GameTime * gametime)
+void GemGame::Draw(GameTime * gameTime)
 {
+
+	SDL_FillRect(gameWindow->screen, NULL, 0x000000);
 	//Put stuff here to draw your game each frame.
-	for(auto &gem : gems)
+	for(Gem* gem : *gems)
 	{
-		gem->Draw(gameTime, gameWindow);
+		gem->Draw(gameTime, gameWindow->screen);
 	}
-	Game::Draw(gametime);
+	player->Draw(gameTime, gameWindow->screen);
+	drawScores(gameWindow);
+	Game::Draw(gameTime);
 }

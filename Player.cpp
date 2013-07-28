@@ -16,18 +16,49 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	*/
-#include "Gem.h"
+#include "Player.h"
 
 using namespace MINX_GEMGAME;
 
 using namespace MINX;
 
-MINX_GEMGAME::Gem::Gem(int X, int Y, Color* color):rect(new Rectangle(X,Y,16,16)),color(color)
+MINX_GEMGAME::Player::Player(int X, int Y):rect(new Rectangle(X,Y,16,16))
+{
+	color = new Color(255,255,255,0);
+}
+void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems, int * score)
 {
 	
-}
+	if(keyboard->getButton(SDLK_UP).state)
+	{
+		rect->Y +=-1;
+	}
+	if(keyboard->getButton(SDLK_DOWN).state)
+	{
+		rect->Y +=1;
+	}
+	if(keyboard->getButton(SDLK_LEFT).state)
+	{
+		rect->X +=-1;
+	}
+	if(keyboard->getButton(SDLK_RIGHT).state)
+	{
+		rect->X +=1;
+	}
 
-void MINX_GEMGAME::Gem::Draw(GameTime * gametime, SDL_Surface* screen)
+	int i = 0;
+	for(Gem* gem : *gems)
+	{
+		if(rect->intersects(gem->rect))
+		{
+			gems->erase(gems->begin() + i);
+			(*score)++;
+			i--;
+		}
+	i++;
+	}
+}
+void Player::Draw(GameTime * gametime, SDL_Surface* screen)
 {
 	//Put stuff here to draw your game each frame.
 	Graphics::Primitives::drawRectangle(color, rect->X, rect->Y, rect->Width, rect->Height, screen);
