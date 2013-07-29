@@ -34,8 +34,21 @@ using namespace MINX::Graphics;
 using namespace std;
 
 vector<Gem*> * gems;
+vector<Color*> * colors;
 Player* player;
 int gemsCollected=0;
+int timelimit = 0;
+int roundID = 0;
+int gemCount = 0;
+void newRound(int roundID)
+{
+	gemCount = 15 + 5 * roundID*roundID;
+	timelimit = (int)((roundID + 5) * 3.5)*1000 - 50*(roundID-4/(roundID+1.3));
+	for(int i =0; i < gemCount; i++)
+	{
+		gems->push_back(new Gem(rand() % 624, rand() % 464, colors->at((int)(rand() % colors->size()))));
+	}
+}
 string intToBinary(int number)
 {
 	string result;
@@ -59,16 +72,18 @@ void drawScore(string scoreString, Point drawingPoint, GameWindow* gameWindow)
 		}
 	}
 }
-void drawScores(GameWindow* gameWindow)
+void drawScores(GameWindow* gameWindow, GameTime* gameTime)
 {
-	drawScore(intToBinary(gemsCollected), Point(50,50), gameWindow);
+	drawScore(intToBinary(roundID), Point(50,440), gameWindow);
+	drawScore(intToBinary(timelimit), Point(50,50), gameWindow);
 }
 GemGame::GemGame()
 {
 	desiredFPS = 120;
 	srand(time(NULL));
 	//This is the constructor. Put stuff here that should happen when the Game is created.
-	gems = new vector<Gem*>();	
+	gems = new vector<Gem*>();
+	colors = new vector<Color*>();	
 	isRunning = true;
 }
 
@@ -76,11 +91,15 @@ void GemGame::Initialize()
 {
 	//Put stuff here that should happen when the Game is initialized.
 	Game::Initialize();
+	colors->push_back(new Color(255,0,0,0));
+	colors->push_back(new Color(0,255,0,0));
+	colors->push_back(new Color(0,0,255,0));
+	colors->push_back(new Color(255,255,0,0));
+	colors->push_back(new Color(255,0,255,0));
+	colors->push_back(new Color(255,255,0,0));
+	colors->push_back(new Color(0,255,255,0));
 	cout << "Game inited!\n";
-	for(int i =0; i < 1000; i++)
-	{
-		gems->push_back(new Gem(rand() % 624, rand() % 464, new Color(255,255,0,0)));
-	}
+	newRound(0);
 	player = new Player(50,50);
 	keyboard= new Input::Keyboard(this);
 	cout << "gems made!\n";
@@ -104,6 +123,16 @@ void GemGame::Update(GameTime * gameTime)
 	Game::Update(gameTime);
 	cout << "game update!\n";
 	player->Update(gameTime, keyboard, gems, &gemsCollected);
+	if(gems->size() <= 0)
+	{
+		roundID++;
+		newRound(roundID);
+	}
+	timelimit -= gameTime->getDeltaTime();
+	if(timelimit <= 0)
+	{
+		isRunning = false;
+	}
 	//SDL_Delay(50);
 }
 
@@ -117,6 +146,6 @@ void GemGame::Draw(GameTime * gameTime)
 		gem->Draw(gameTime, gameWindow->screen);
 	}
 	player->Draw(gameTime, gameWindow->screen);
-	drawScores(gameWindow);
+	drawScores(gameWindow, gameTime);
 	Game::Draw(gameTime);
 }
