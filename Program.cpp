@@ -23,4 +23,5 @@ int main(int argc, char ** argv)
 {
 	GemGame * game = new GemGame();
 	game->Run();
+	exit(0);
 }
