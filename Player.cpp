@@ -25,27 +25,31 @@ using namespace MINX;
 MINX_GEMGAME::Player::Player(int X, int Y):rect(new Rectangle(X,Y,16,16))
 {
 	color = new Color(255,255,255,0);
+	velocity = new Vector2(0,0);
 }
 void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems, int * score)
 {
-	
+	velocity->X =0;
+	velocity->Y =0;
 	if(keyboard->getButton(SDLK_UP).state)
 	{
-		rect->Y +=-1;
+		velocity->Y +=-1;
 	}
 	if(keyboard->getButton(SDLK_DOWN).state)
 	{
-		rect->Y +=1;
+		velocity->Y +=1;
 	}
 	if(keyboard->getButton(SDLK_LEFT).state)
 	{
-		rect->X +=-1;
+		velocity->X +=-1;
 	}
 	if(keyboard->getButton(SDLK_RIGHT).state)
 	{
-		rect->X +=1;
+		velocity->X +=1;
 	}
-
+	*velocity = velocity->normalize();
+	rect->X += velocity->X;
+	rect->Y += velocity->Y;
 	int i = 0;
 	for(Gem* gem : *gems)
 	{
@@ -55,7 +59,7 @@ void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems
 			(*score)++;
 			i--;
 		}
-	i++;
+		i++;
 	}
 }
 void Player::Draw(GameTime * gametime, SDL_Surface* screen)

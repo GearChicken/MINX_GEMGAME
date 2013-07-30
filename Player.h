@@ -19,6 +19,7 @@
 #include "Game.h"
 #include "Gem.h"
 #include "GameTime.h"
+#include "Vector2.h"
 #include "Rectangle.h"
 #include "Graphics/Color.h"
 #include "Graphics/Primitives.h"
@@ -41,6 +42,7 @@ namespace MINX_GEMGAME
 		private:
 			Rectangle* rect;
 			Color* color;
+			Vector2* velocity;
 	};
 }
 
