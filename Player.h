@@ -43,6 +43,7 @@ namespace MINX_GEMGAME
 			Rectangle* rect;
 			Color* color;
 			Vector2* velocity;
+			Vector2 * loc;
 	};
 }
 
