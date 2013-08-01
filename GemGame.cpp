@@ -19,6 +19,11 @@
 #include "GemGame.h"
 #include "Point.h"
 #include "Gem.h"
+#include "SDL/SDL.h"
+#include "SDL/SDL_ttf.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "SDL/SDL_image.h"
 #include "Player.h"
 #include "Rectangle.h"
 #include "Graphics/Color.h"
@@ -26,6 +31,7 @@
 #include "Input/Keyboard.h"
 #include <vector>
 #include <string>
+#include <sstream>
 #include <algorithm>
 #include <iostream>
 using namespace MINX_GEMGAME;
@@ -40,10 +46,24 @@ int gemsCollected=0;
 int timelimit = 0;
 int roundID = 0;
 int gemCount = 0;
+TTF_Font* font;
+
+void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL )
+{
+    //Holds offsets
+    SDL_Rect offset;
+
+    //Get offsets
+    offset.x = x;
+    offset.y = y;
+
+    //Blit
+    SDL_BlitSurface( source, clip, destination, &offset );
+}
 void newRound(int roundID)
 {
 	gemCount = 15 + 5 * roundID*roundID;
-	timelimit = (int)((roundID + 5) * 3.5)*1000 - 50*(roundID-4/(roundID+1.3));
+	timelimit = (int)((roundID + 5) * 3.5)*1000 - 50*(roundID-4/(roundID+1.3)) + gemCount*10/(roundID*roundID+2);
 	for(int i =0; i < gemCount; i++)
 	{
 		gems->push_back(new Gem(rand() % 624, rand() % 464, colors->at((int)(rand() % colors->size()))));
@@ -74,8 +94,14 @@ void drawScore(string scoreString, Point drawingPoint, GameWindow* gameWindow)
 }
 void drawScores(GameWindow* gameWindow, GameTime* gameTime)
 {
-	drawScore(intToBinary(roundID), Point(50,440), gameWindow);
-	drawScore(intToBinary(timelimit), Point(50,50), gameWindow);
+	stringstream ss;
+	ss << roundID;
+	//drawScore(intToBinary(roundID), Point(50,440), gameWindow);
+	apply_surface(50,440, TTF_RenderText_Solid(font, ss.str().c_str(), {255,255,255}), gameWindow->screen);
+	ss.str(string());
+	ss << timelimit/1000;
+	//drawScore(intToBinary(timelimit), Point(50,50), gameWindow);
+	apply_surface(50,50, TTF_RenderText_Solid(font, ss.str().c_str(), {255,255,255}), gameWindow->screen);
 }
 GemGame::GemGame()
 {
@@ -108,6 +134,7 @@ void GemGame::Initialize()
 void GemGame::LoadContent()
 {
 	//Put stuff here that loads content for your game.
+	font = content->loadTTFFont("Ubuntu-B.ttf", 24);
 	Game::LoadContent();
 }
 
