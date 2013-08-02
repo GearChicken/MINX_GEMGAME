@@ -19,6 +19,7 @@
 #include "GemGame.h"
 #include "Point.h"
 #include "Gem.h"
+#include "Graphics/Font.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
 #include <stdio.h>
@@ -47,21 +48,10 @@ int timelimit = 0;
 int roundID = 0;
 int gemCount = 0;
 TTF_Font* font;
-
-void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL )
-{
-    //Holds offsets
-    SDL_Rect offset;
-
-    //Get offsets
-    offset.x = x;
-    offset.y = y;
-
-    //Blit
-    SDL_BlitSurface( source, clip, destination, &offset );
-}
+bool loseCondition= false;
 void newRound(int roundID)
 {
+	srand(time(NULL));
 	gemCount = 15 + 5 * roundID*roundID;
 	timelimit = (int)((roundID + 5) * 3.5)*1000 - 50*(roundID-4/(roundID+1.3)) + gemCount*10/(roundID*roundID+2);
 	for(int i =0; i < gemCount; i++)
@@ -69,39 +59,22 @@ void newRound(int roundID)
 		gems->push_back(new Gem(rand() % 624, rand() % 464, colors->at((int)(rand() % colors->size()))));
 	}
 }
-string intToBinary(int number)
-{
-	string result;
-	do result.push_back('0' + (number & 1));
-	while (number >>=1);
-	
-	reverse(result.begin(), result.end());
-	return result;
-}
-void drawScore(string scoreString, Point drawingPoint, GameWindow* gameWindow)
-{
-	for(string::size_type i = 0; i < scoreString.size(); ++i)
-	{
-		if(scoreString[i] == *"0")
-		{
-			Graphics::Primitives::drawOutlineRectangle(new Graphics::Color(255,255,255,255), drawingPoint.X + i*10, drawingPoint.Y, 5, 10, gameWindow->screen);
-		}
-		if(scoreString[i] == *"1")
-		{
-			Graphics::Primitives::drawRectangle(new Graphics::Color(255,255,255,255), drawingPoint.X + i*10, drawingPoint.Y, 5, 10, gameWindow->screen);
-		}
-	}
-}
-void drawScores(GameWindow* gameWindow, GameTime* gameTime)
+string ToString(int val)
 {
 	stringstream ss;
-	ss << roundID;
-	//drawScore(intToBinary(roundID), Point(50,440), gameWindow);
-	apply_surface(50,440, TTF_RenderText_Solid(font, ss.str().c_str(), {255,255,255}), gameWindow->screen);
-	ss.str(string());
-	ss << timelimit/1000;
-	//drawScore(intToBinary(timelimit), Point(50,50), gameWindow);
-	apply_surface(50,50, TTF_RenderText_Solid(font, ss.str().c_str(), {255,255,255}), gameWindow->screen);
+	ss << val;
+	return ss.str();
+}
+string ToString(int val, int decimal)
+{
+	stringstream ss;
+	ss << val;
+	string s = ss.str();
+	if(s.size() > decimal -1)
+	{
+		s.insert(s.end() - decimal, '.');
+	}
+	return s;
 }
 GemGame::GemGame()
 {
@@ -135,6 +108,7 @@ void GemGame::LoadContent()
 {
 	//Put stuff here that loads content for your game.
 	font = content->loadTTFFont("Ubuntu-B.ttf", 24);
+	cout << "content loaded!\n";
 	Game::LoadContent();
 }
 
@@ -154,11 +128,29 @@ void GemGame::Update(GameTime * gameTime)
 	{
 		roundID++;
 		newRound(roundID);
+		player->speedMultiplier *= .85;
 	}
-	timelimit -= gameTime->getDeltaTime();
 	if(timelimit <= 0)
 	{
-		isRunning = false;
+		
+		loseCondition = true;
+	}
+	else
+	{
+		timelimit -= gameTime->getDeltaTime();
+	}
+	if(loseCondition && keyboard->getButton(SDLK_SPACE).state)
+	{
+		for(Gem* gem : *gems)
+		{
+			gems->erase(gems->begin());
+		}
+		loseCondition = false;
+		gemsCollected = 0;
+		roundID = 0;
+		newRound(roundID);
+		
+		player->speedMultiplier = 5;
 	}
 	//SDL_Delay(50);
 }
@@ -168,11 +160,22 @@ void GemGame::Draw(GameTime * gameTime)
 
 	SDL_FillRect(gameWindow->screen, NULL, 0x000000);
 	//Put stuff here to draw your game each frame.
-	for(Gem* gem : *gems)
+	if(loseCondition)
 	{
-		gem->Draw(gameTime, gameWindow->screen);
+		
+		DrawString(50,195, "You Lose! Press Spacebar to play again!", gameWindow->screen, font);
+
 	}
-	player->Draw(gameTime, gameWindow->screen);
-	drawScores(gameWindow, gameTime);
+	else
+	{
+		for(Gem* gem : *gems)
+		{
+			gem->Draw(gameTime, gameWindow->screen);
+		}
+		player->Draw(gameTime, gameWindow->screen);
+	DrawString(50,50, "Time: " + ToString(timelimit,3), gameWindow->screen, font);
+	}
+	DrawString(50,390, "Gems Collected: " + ToString(gemsCollected), gameWindow->screen, font);
+	DrawString(50,440, "Round: " + ToString(roundID), gameWindow->screen, font);
 	Game::Draw(gameTime);
 }

@@ -39,6 +39,7 @@ namespace MINX_GEMGAME
 			Player(int X, int Y);
 			void Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems, int * score);
 			void Draw(GameTime * gametime, SDL_Surface* screen);
+			float speedMultiplier;
 		private:
 			Rectangle* rect;
 			Color* color;

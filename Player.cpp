@@ -27,6 +27,7 @@ MINX_GEMGAME::Player::Player(int X, int Y):rect(new Rectangle(X,Y,16,16))
 	color = new Color(255,255,255,0);
 	velocity = new Vector2(0,0);
 	loc = new Vector2(0,0);
+	speedMultiplier=5;
 }
 void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems, int * score)
 {
@@ -49,8 +50,25 @@ void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems
 		velocity->X +=1;
 	}
 	*velocity = velocity->normalize();
+	*velocity = *velocity * speedMultiplier;
 	loc->X += velocity->X;
 	loc->Y += velocity->Y;
+	if(loc->X < 0)
+	{
+		loc->X = 640;
+	}
+	if(loc->X > 640)
+	{
+		loc->X = 0;
+	}
+	if(loc->Y < 0)
+	{
+		loc->Y = 480;
+	}
+	if(loc->Y > 480)
+	{
+		loc->Y = 0;
+	}
 	rect->X = loc->X;
 	rect->Y = loc->Y;
 	int i = 0;
@@ -58,6 +76,7 @@ void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems
 	{
 		if(rect->intersects(gem->rect))
 		{
+			//gems->at(0) = NULL;
 			gems->erase(gems->begin() + i);
 			(*score)++;
 			i--;
