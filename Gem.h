@@ -21,6 +21,7 @@
 #include "Rectangle.h"
 #include "Graphics/Color.h"
 #include "Graphics/Primitives.h"
+#include "Graphics/Texture2D.h"
 #ifndef GEM_H_
 #define GEM_H_
 
@@ -32,10 +33,11 @@ namespace MINX_GEMGAME
 	class Gem
 	{
 		public:
-			Gem(int X, int Y, Color* color);
+			Gem(int X, int Y, Color* color, Texture2D* tex);
 			void Draw(GameTime * gametime, SDL_Surface* screen);
 			Rectangle* rect;
 			Color* color;
+			Texture2D* tex;
 	};
 }
 

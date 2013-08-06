@@ -49,14 +49,14 @@ int roundID = 0;
 int gemCount = 0;
 TTF_Font* font;
 bool loseCondition= false;
-void newRound(int roundID)
+void newRound(int roundID, Content * content)
 {
 	srand(time(NULL));
 	gemCount = 15 + 5 * roundID*roundID;
 	timelimit = (int)((roundID + 5) * 3.5)*1000 - 50*(roundID-4/(roundID+1.3)) + gemCount*10/(roundID*roundID+2);
 	for(int i =0; i < gemCount; i++)
 	{
-		gems->push_back(new Gem(rand() % 624, rand() % 464, colors->at((int)(rand() % colors->size()))));
+		gems->push_back(new Gem(rand() % 624, rand() % 464, colors->at((int)(rand() % colors->size())), content->textures->at("gem")));
 	}
 }
 string ToString(int val)
@@ -79,6 +79,7 @@ string ToString(int val, int decimal)
 GemGame::GemGame()
 {
 	desiredFPS = 120;
+	windowFlags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL;
 	srand(time(NULL));
 	//This is the constructor. Put stuff here that should happen when the Game is created.
 	gems = new vector<Gem*>();
@@ -98,7 +99,6 @@ void GemGame::Initialize()
 	colors->push_back(new Color(255,255,0,0));
 	colors->push_back(new Color(0,255,255,0));
 	cout << "Game inited!\n";
-	newRound(0);
 	player = new Player(50,50);
 	keyboard= new Input::Keyboard(this);
 	cout << "gems made!\n";
@@ -107,7 +107,9 @@ void GemGame::Initialize()
 void GemGame::LoadContent()
 {
 	//Put stuff here that loads content for your game.
-	font = content->loadTTFFont("Ubuntu-B.ttf", 24);
+	font = content->loadTTFFont("Ubuntu-B.ttf", 24, "font");
+	content->loadTexture("gem.png", "gem");
+	newRound(0, content);
 	cout << "content loaded!\n";
 	Game::LoadContent();
 }
@@ -127,7 +129,7 @@ void GemGame::Update(GameTime * gameTime)
 	if(gems->size() <= 0)
 	{
 		roundID++;
-		newRound(roundID);
+		newRound(roundID, content);
 		player->speedMultiplier *= .85;
 	}
 	if(timelimit <= 0)
@@ -148,9 +150,13 @@ void GemGame::Update(GameTime * gameTime)
 		loseCondition = false;
 		gemsCollected = 0;
 		roundID = 0;
-		newRound(roundID);
+		newRound(roundID, content);
 		
 		player->speedMultiplier = 5;
+	}
+	if(keyboard->getButton(SDLK_ESCAPE).state)
+	{
+		isRunning = false;
 	}
 	//SDL_Delay(50);
 }
