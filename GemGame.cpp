@@ -62,7 +62,7 @@ void newRound(int roundID, Content * content)
 	gems = new vector<Gem*>();
 	for(int i =0; i < gemCount; i++)
 	{
-		gems->push_back(new Gem(rand() % 624, rand() % 464, colors->at((int)(rand() % colors->size())) , content->textures->at("gem")));
+		gems->push_back(new Gem(rand() % 624 + 192, rand() % 464 + 144, colors->at((int)(rand() % colors->size())) , content->textures->at("gem")));
 	}
 }
 string ToString(int val)
@@ -85,7 +85,9 @@ string ToString(int val, int decimal)
 GemGame::GemGame()
 {
 	desiredFPS = 120;
-	windowFlags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL|SDL_FULLSCREEN;
+	windowWidth = 1024;
+	windowHeight = 768;
+	windowFlags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL;
 	srand(time(NULL));
 	//This is the constructor. Put stuff here that should happen when the Game is created.
 	gems = new vector<Gem*>();
@@ -173,7 +175,7 @@ void GemGame::Draw(GameTime * gameTime)
 	if(loseCondition)
 	{
 		
-		DrawString(50,195, "You Lose! Press Spacebar to play again!", gameWindow->screen, font);
+		DrawString(50,100, "You Lose! Press Spacebar to play again!", gameWindow->screen, font);
 
 	}
 	else
@@ -185,7 +187,8 @@ void GemGame::Draw(GameTime * gameTime)
 		player->Draw(gameTime, gameWindow->screen);
 	DrawString(50,50, "Time: " + ToString(timelimit,3), gameWindow->screen, font);
 	}
-	DrawString(50,390, "Gems Collected: " + ToString(gemsCollected), gameWindow->screen, font);
-	DrawString(50,440, "Round: " + ToString(roundID), gameWindow->screen, font);
+	DrawString(50,650, "Gems Collected: " + ToString(gemsCollected), gameWindow->screen, font);
+	DrawString(50,720, "Round: " + ToString(roundID), gameWindow->screen, font);
+	Primitives::drawOutlineRectangle(new Color(255,255,255,0), 192, 144, 640, 480, gameWindow->screen);
 	Game::Draw(gameTime);
 }

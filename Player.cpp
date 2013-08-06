@@ -53,21 +53,21 @@ void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems
 	*velocity = *velocity * speedMultiplier;
 	loc->X += velocity->X;
 	loc->Y += velocity->Y;
-	if(loc->X < 0)
+	if(loc->X < 192)
 	{
-		loc->X = 640;
+		loc->X = 816;
 	}
-	if(loc->X > 640)
+	if(loc->X > 816)
 	{
-		loc->X = 0;
+		loc->X = 192;
 	}
-	if(loc->Y < 0)
+	if(loc->Y < 144)
 	{
-		loc->Y = 480;
+		loc->Y = 608;
 	}
-	if(loc->Y > 480)
+	if(loc->Y > 608)
 	{
-		loc->Y = 0;
+		loc->Y = 144;
 	}
 	rect->X = loc->X;
 	rect->Y = loc->Y;
