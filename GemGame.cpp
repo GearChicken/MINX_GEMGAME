@@ -56,7 +56,7 @@ void newRound(int roundID, Content * content)
 	timelimit = (int)((roundID + 5) * 3.5)*1000 - 50*(roundID-4/(roundID+1.3)) + gemCount*10/(roundID*roundID+2);
 	for(int i =0; i < gemCount; i++)
 	{
-		gems->push_back(new Gem(rand() % 624, rand() % 464, new Color(rand() % 255, rand() % 255, rand() % 255), content->textures->at("gem")));
+		gems->push_back(new Gem(rand() % 624, rand() % 464, colors->at((int)(rand() % colors->size())) , content->textures->at("gem")));
 	}
 }
 string ToString(int val)
