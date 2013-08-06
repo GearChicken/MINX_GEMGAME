@@ -85,7 +85,7 @@ string ToString(int val, int decimal)
 GemGame::GemGame()
 {
 	desiredFPS = 120;
-	windowFlags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL;
+	windowFlags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL|SDL_FULLSCREEN;
 	srand(time(NULL));
 	//This is the constructor. Put stuff here that should happen when the Game is created.
 	gems = new vector<Gem*>();
