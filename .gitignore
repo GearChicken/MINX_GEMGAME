@@ -1,13 +1,6 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
+src/*.o
+ipch/
+Debug/
+Release/
+MINX_GEMGAME/Debug/
+MINX_GEMGAME/Release/
