@@ -52,10 +52,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>c:\c++\MINX\headers;c:\sdl\SDL_ttf-devel-2.0.11-VC\SDL_ttf-2.0.11\include;c:\sdl\SDL_mixer-devel-1.2.12-VC\SDL_mixer-1.2.12\include;c:\sdl\SDL_image-devel-1.2.12-VC\SDL_image-1.2.12\include;c:\sdl\SDL-devel-1.2.15-VC\SDL-1.2.15\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\MINX\include;..\..\MINX\headers;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\MINX\lib\x86;..\..\MINX\Debug;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>c:\c++\MINX\headers;c:\sdl\SDL_ttf-devel-2.0.11-VC\SDL_ttf-2.0.11\include;c:\sdl\SDL_mixer-devel-1.2.12-VC\SDL_mixer-1.2.12\include;c:\sdl\SDL_image-devel-1.2.12-VC\SDL_image-1.2.12\include;c:\sdl\SDL-devel-1.2.15-VC\SDL-1.2.15\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\MINX\include;..\..\MINX\headers;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\MINX\lib\x86;..\..\MINX\Release;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -65,7 +67,6 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>c:\c++\MINX\Debug;c:\sdl\SDL_ttf-devel-2.0.11-VC\SDL_ttf-2.0.11\lib\x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>minx.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainFunc</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
@@ -82,7 +83,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>c:\c++\MINX\Release;c:\sdl\SDL_ttf-devel-2.0.11-VC\SDL_ttf-2.0.11\lib\x86</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>mainFunc</EntryPointSymbol>
       <AdditionalDependencies>minx.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>

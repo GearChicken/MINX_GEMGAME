@@ -42,8 +42,9 @@ int timelimit = 0;
 int roundID = 0;
 int gemCount = 0;
 TTF_Font* font;
+Texture2D* gem;
 bool loseCondition= false;
-void newRound(int roundID, Content * content)
+void newRound(int roundID)
 {
 	srand(time(NULL));
 	gemCount = 15 + 5 * roundID*roundID;
@@ -63,7 +64,7 @@ void newRound(int roundID, Content * content)
 	gems = new vector<Gem*>();
 	for(int i =0; i < gemCount; i++)
 	{
-		gems->push_back(new Gem(rand() % 624 + 192, rand() % 464 + 144, colors->at((int)(rand() % colors->size())) , content->textures->at("gem")));
+		gems->push_back(new Gem(rand() % 624 + 192, rand() % 464 + 144, colors->at((int)(rand() % colors->size())) , gem));
 	}
 }
 string ToString(int val)
@@ -89,6 +90,7 @@ GemGame::GemGame()
 	windowWidth = 1024;
 	windowHeight = 768;
 	windowFlags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL;
+	Game::setVideoOptions(120,1024,768,32,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL);
 	srand(time(NULL));
 	//This is the constructor. Put stuff here that should happen when the Game is created.
 	gems = new vector<Gem*>();
@@ -117,8 +119,8 @@ void GemGame::LoadContent()
 {
 	//Put stuff here that loads content for your game.
 	font = TTF_OpenFont(((string)"Ubuntu-B.ttf").c_str(), 24);
-	content->loadTexture("gem.png", "gem");
-	newRound(0, content);
+	gem = Content::loadTexture("gem.png",gameWindow);
+	newRound(0);
 	cout << "content loaded!\n";
 	Game::LoadContent();
 }
@@ -137,7 +139,7 @@ void GemGame::Update(GameTime * gameTime)
 	if(gems->size() <= 0)
 	{
 		roundID++;
-		newRound(roundID, content);
+		newRound(roundID);
 		player->speedMultiplier *= .85;
 	}
 	if(timelimit <= 0)
@@ -152,7 +154,7 @@ void GemGame::Update(GameTime * gameTime)
 	if(loseCondition && keyboard->getButton(SDLK_SPACE).state)
 	{
 #ifdef _WIN32
-		for(vector<Gem*>::iterator it = gems->begin(); it != gems->end(); ++it)
+		for(vector<Gem*>::iterator it = gems->begin(); it < gems->end(); ++it)
 		{
 			gems->erase(gems->begin());
 		}
@@ -165,7 +167,7 @@ void GemGame::Update(GameTime * gameTime)
 		loseCondition = false;
 		gemsCollected = 0;
 		roundID = 0;
-		newRound(roundID, content);
+		newRound(roundID);
 		player->speedMultiplier = 5;
 	}
 	if(keyboard->getButton(SDLK_ESCAPE).state)
@@ -189,9 +191,12 @@ void GemGame::Draw(GameTime * gameTime)
 	else
 	{
 #ifdef _WIN32
-		for(vector<Gem*>::iterator it = gems->begin(); it != gems->end(); ++it)
+		for(vector<Gem*>::iterator it = gems->begin(); it < gems->end(); ++it)
 		{
-			(*it)->Draw(gameTime, gameWindow->screen);
+			if(typeid(*it).name() == typeid(Gem*).name())
+			{
+				(*it)->Draw(gameTime, gameWindow->screen);
+			}
 		}
 #else
 		for(Gem* gem : *gems)

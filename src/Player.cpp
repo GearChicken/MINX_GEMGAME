@@ -73,7 +73,7 @@ void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems
 	rect->Y = loc->Y;
 	int i = 0;
 #ifdef _WIN32
-	for(vector<Gem*>::iterator it = gems->begin(); it != gems->end(); ++it)
+	for(vector<Gem*>::iterator it = gems->begin(); it < gems->end(); ++it)
 	{
 		// Gem * gem = *it;
 		if(rect->intersects((*it)->rect))
