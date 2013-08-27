@@ -38,12 +38,13 @@ vector<Gem*> * gems;
 vector<Color*> * colors;
 Player* player;
 int gemsCollected=0;
-int timelimit = 0;
+int timelimit = 15;
 int roundID = 0;
 int gemCount = 0;
 TTF_Font* font;
 Texture2D* gem;
 bool loseCondition= false;
+string loseString = "Welcome! Press Spacebar to Play!";
 void newRound(int roundID)
 {
 	srand(time(NULL));
@@ -60,8 +61,6 @@ void newRound(int roundID)
 		delete gem;
 	}
 #endif
-	delete gems;
-	gems = new vector<Gem*>();
 	for(int i =0; i < gemCount; i++)
 	{
 		gems->push_back(new Gem(rand() % 624 + 192, rand() % 464 + 144, colors->at((int)(rand() % colors->size())) , gem));
@@ -144,7 +143,7 @@ void GemGame::Update(GameTime * gameTime)
 	}
 	if(timelimit <= 0)
 	{
-		
+		loseString = "You Lose! Press Spacebar to play again!";
 		loseCondition = true;
 	}
 	else
@@ -153,6 +152,8 @@ void GemGame::Update(GameTime * gameTime)
 	}
 	if(loseCondition && keyboard->getButton(SDLK_SPACE).state)
 	{
+	gems = NULL;
+	gems = new vector<Gem*>();
 #ifdef _WIN32
 		for(vector<Gem*>::iterator it = gems->begin(); it < gems->end(); ++it)
 		{
@@ -185,7 +186,7 @@ void GemGame::Draw(GameTime * gameTime)
 	if(loseCondition)
 	{
 		
-		DrawString(50,100, "You Lose! Press Spacebar to play again!", gameWindow->screen, font);
+		DrawString(50,100, loseString, gameWindow->screen, font);
 
 	}
 	else

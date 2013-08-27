@@ -1,0 +1,6 @@
+src/*.o
+ipch/
+Debug/
+Release/
+MINX_GEMGAME/Debug/
+MINX_GEMGAME/Release/

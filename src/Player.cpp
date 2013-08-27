@@ -22,17 +22,17 @@ using namespace MINX_GEMGAME;
 
 using namespace MINX;
 
-MINX_GEMGAME::Player::Player(int X, int Y):rect(new Rectangle(X,Y,16,16))
+MINX_GEMGAME::Player::Player(int X, int Y):rect(new Rectangle(X,Y,16,16)) // Instantiate a new Player with a width and height equal to 16.
 {
-	color = new Color(255,255,255,0);
-	velocity = new Vector2(0,0);
-	loc = new Vector2(0,0);
-	speedMultiplier=5;
+	color = new Color(255,255,255,0); // make the player whitee
+	velocity = new Vector2(0,0); // make the player's velocity zero
+	loc = new Vector2(0,0); // set the player at the top left corner of the screen
+	speedMultiplier=5; // set the players speed to 5
 }
 void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems, int * score)
 {
-	velocity->X =0;
-	velocity->Y =0;
+	velocity->X =0;  // reset the players velocity
+	velocity->Y =0; 
 	if(keyboard->getButton(SDLK_UP).state)
 	{
 		velocity->Y +=-1;
@@ -49,11 +49,15 @@ void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems
 	{
 		velocity->X +=1;
 	}
+
 	*velocity = velocity->normalize();
-	*velocity = *velocity * speedMultiplier;
-	loc->X += velocity->X;
+	*velocity = *velocity * speedMultiplier; // limit the players velocity to have a magnitude of speedMultiplier
+	loc->X += velocity->X; // update the players location
 	loc->Y += velocity->Y;
-	if(loc->X < 192)
+	
+	//SCREEN WRAPPING
+
+	if(loc->X < 192) 
 	{
 		loc->X = 816;
 	}
@@ -69,6 +73,8 @@ void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems
 	{
 		loc->Y = 144;
 	}
+
+	//update player location
 	rect->X = loc->X;
 	rect->Y = loc->Y;
 	int i = 0;
