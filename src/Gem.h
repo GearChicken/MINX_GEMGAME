@@ -16,7 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	*/
-#include "MINX.h"
+#ifdef _WIN32
+#include "Minx.h"
+#else
+#include "Rectangle.h"
+#include "GameTime.h"
+#include "Graphics/Color.h"
+#include "Graphics/Texture2D.h"
+#endif
 #ifndef GEM_H_
 #define GEM_H_
 

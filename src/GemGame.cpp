@@ -17,7 +17,11 @@
 
 	*/
 #include "GemGame.h"
+#ifdef _WIN32
 #include "MINX.h"
+#else
+#include "Graphics/Font.h"
+#endif
 #include "Gem.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -112,7 +116,7 @@ void fpsthink() {
 
         // now to make it an actual frames per second value...
         framespersecond = 1000.f / framespersecond;
-		cout << "Fps: " << framespersecond << "\n";
+	//cout << "Fps: " << framespersecond << "\n";
 }
 vector<Gem*> * gems;
 vector<Color*> * colors;
@@ -169,7 +173,11 @@ GemGame::GemGame()
 	windowWidth = 1024;
 	windowHeight = 768;
 	windowFlags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL;
+#ifdef _WIN32
 	Game::setVideoOptions(-1,1024,768,32,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL);
+#else
+	Game::setVideoOptions(120,1024,768,32,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL);
+#endif
 	srand(time(NULL));
 	//This is the constructor. Put stuff here that should happen when the Game is created.
 	gems = new vector<Gem*>();
@@ -193,6 +201,7 @@ void GemGame::Initialize()
 	player = new Player(50,50);
 	keyboard= new Input::Keyboard(this);
 	cout << "gems made!\n";
+
 	fpsinit();
 }
 
@@ -257,8 +266,6 @@ void GemGame::Update(GameTime * gameTime)
 	{
 		isRunning = false;
 	}
-	fpsthink();
-	//SDL_Delay(50);
 }
 
 void GemGame::Draw(GameTime * gameTime)
@@ -293,6 +300,8 @@ void GemGame::Draw(GameTime * gameTime)
 	}
 	DrawString(50,650, "Gems Collected: " + ToString(gemsCollected), gameWindow->screen, font);
 	DrawString(50,720, "Round: " + ToString(roundID), gameWindow->screen, font);
+	DrawString(850,50, "FPS: " + ToString(framespersecond), gameWindow->screen, font);
 	Primitives::drawOutlineRectangle(new Color(255,255,255,0), 192, 144, 640, 480, gameWindow->screen);
 	Game::Draw(gameTime);
+	fpsthink();
 }

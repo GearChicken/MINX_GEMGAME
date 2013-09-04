@@ -16,7 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	*/
+#ifdef _WIN32
 #include "MINX.h"
+#else
+#include "Game.h"
+#include "Input/Keyboard.h"
+#include "Vector2.h"
+#endif
 #include <vector>
 #include "Gem.h"
 #ifndef PLAYER_H_
