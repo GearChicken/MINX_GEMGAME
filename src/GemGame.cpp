@@ -17,11 +17,7 @@
 
 	*/
 #include "GemGame.h"
-#ifdef _WIN32
-#include "MINX.h"
-#else
 #include "Graphics/Font.h"
-#endif
 #include "Gem.h"
 #include <stdio.h>
 #include <stdlib.h>
