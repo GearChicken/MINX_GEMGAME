@@ -168,11 +168,11 @@ GemGame::GemGame()
 	desiredFPS = 120;
 	windowWidth = 1024;
 	windowHeight = 768;
-	windowFlags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL;
+	windowFlags = 0;
 #ifdef _WIN32
-	Game::setVideoOptions(120,1024,768,32,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL);
+	Game::setVideoOptions(120,1024,768,32,0);
 #else
-	Game::setVideoOptions(120,1024,768,32,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_SRCALPHA|SDL_HWACCEL);
+	Game::setVideoOptions(120,1024,768,32,0);
 #endif
 	srand(time(NULL));
 	//This is the constructor. Put stuff here that should happen when the Game is created.
@@ -185,7 +185,6 @@ void GemGame::Initialize()
 {
 	//Put stuff here that should happen when the Game is initialized.
 	Game::Initialize();
-	SDL_WM_SetCaption("Gem Game","Gem Game");
 	colors->push_back(new Color(255,0,0,0));
 	colors->push_back(new Color(0,255,0,0));
 	colors->push_back(new Color(0,0,255,0));
@@ -205,7 +204,7 @@ void GemGame::LoadContent()
 {
 	//Put stuff here that loads content for your game.
 	font = TTF_OpenFont(((string)"Ubuntu-B.ttf").c_str(), 24);
-	gem = Content::loadTexture("gem.png",gameWindow);
+	gem = Content::loadTexture("gem.png",gameWindow, sdlRenderer);
 	newRound(0);
 	cout << "content loaded!\n";
 	Game::LoadContent();
@@ -266,13 +265,14 @@ void GemGame::Update(GameTime * gameTime)
 
 void GemGame::Draw(GameTime * gameTime)
 {
-
-	SDL_FillRect(gameWindow->screen, NULL, 0x000000);
+	
+	SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, 255);
+	SDL_RenderClear(sdlRenderer);
 	//Put stuff here to draw your game each frame.
 	if(loseCondition)
 	{
 		
-		DrawString(50,100, loseString, gameWindow->screen, font);
+		DrawString(50,100, loseString, sdlRenderer, font);
 
 	}
 	else
@@ -282,7 +282,7 @@ void GemGame::Draw(GameTime * gameTime)
 		{
 			if(typeid(*it).name() == typeid(Gem*).name())
 			{
-				(*it)->Draw(gameTime, gameWindow->screen);
+				(*it)->Draw(gameTime, sdlRenderer);
 			}
 		}
 #else
@@ -291,13 +291,13 @@ void GemGame::Draw(GameTime * gameTime)
 			gem->Draw(gameTime, gameWindow->screen);
 		}
 #endif
-		player->Draw(gameTime, gameWindow->screen);
-	DrawString(50,50, "Time: " + ToString(timelimit,3), gameWindow->screen, font);
+		player->Draw(gameTime, sdlRenderer);
+	DrawString(50,50, "Time: " + ToString(timelimit,3), sdlRenderer, font);
 	}
-	DrawString(50,650, "Gems Collected: " + ToString(gemsCollected), gameWindow->screen, font);
-	DrawString(50,720, "Round: " + ToString(roundID), gameWindow->screen, font);
-	DrawString(850,50, "FPS: " + ToString(framespersecond), gameWindow->screen, font);
-	Primitives::drawOutlineRectangle(new Color(255,255,255,0), 192, 144, 640, 480, gameWindow->screen);
+	DrawString(50,650, "Gems Collected: " + ToString(gemsCollected), sdlRenderer, font);
+	DrawString(50,720, "Round: " + ToString(roundID), sdlRenderer, font);
+	DrawString(850,50, "FPS: " + ToString(framespersecond), sdlRenderer, font);
+	Primitives::drawOutlineRectangle(new Color(255,255,255,0), 192, 144, 640, 480, sdlRenderer);
 	Game::Draw(gameTime);
 	fpsthink();
 }

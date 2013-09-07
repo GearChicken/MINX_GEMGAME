@@ -1,38 +1,28 @@
-﻿Build started 8/27/2013 3:17:11 PM.
+﻿Build started 9/7/2013 5:24:21 PM.
      1>Project "Z:\MINX\MINX_GEMGAME\MINX_GEMGAME\MINX_GEMGAME.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\Gem.cpp ..\src\GemGame.cpp ..\src\Player.cpp ..\src\Program.cpp
-         Program.cpp
-         Player.cpp
-     1>z:\minx\minx_gemgame\src\player.cpp(78): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>z:\minx\minx_gemgame\src\player.cpp(79): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-         GemGame.cpp
-     1>z:\minx\minx_gemgame\src\gemgame.cpp(50): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>z:\minx\minx_gemgame\src\gemgame.cpp(52): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>z:\minx\minx_gemgame\src\gemgame.cpp(80): warning C4018: '>' : signed/unsigned mismatch
-     1>z:\minx\minx_gemgame\src\gemgame.cpp(93): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>z:\minx\minx_gemgame\src\gemgame.cpp(142): warning C4305: '*=' : truncation from 'double' to 'float'
-         Gem.cpp
-         Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Z:\MINX\MINX_GEMGAME\Debug\MINX_GEMGAME.exe" /NOLOGO minx.lib SDL_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\MINX_GEMGAME.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"Z:\MINX\MINX_GEMGAME\Debug\MINX_GEMGAME.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"mainFunc" /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:\MINX\MINX_GEMGAME\Debug\MINX_GEMGAME.lib" /MACHINE:X86 Debug\Gem.obj
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Z:\MINX\MINX_GEMGAME\Debug\MINX_GEMGAME.exe" /INCREMENTAL /NOLOGO minx.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Z:\MINX\MINX_GEMGAME\Debug\MINX_GEMGAME.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"mainFunc" /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:\MINX\MINX_GEMGAME\Debug\MINX_GEMGAME.lib" /MACHINE:X86 Debug\Gem.obj
          Debug\GemGame.obj
          Debug\Player.obj
          Debug\Program.obj
-     1>minx.lib(Rectangle.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(Texture2D.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(Game.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(Keyboard.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(Content.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(IGenericHID.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(Primitives.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(Font.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(Vector2.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(AudioClip.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>minx.lib(EventHandler.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Gem.obj
-     1>Z:\MINX\MINX_GEMGAME\Debug\MINX_GEMGAME.exe : fatal error LNK1319: 11 mismatches detected
-     1>Done Building Project "Z:\MINX\MINX_GEMGAME\MINX_GEMGAME\MINX_GEMGAME.vcxproj" (Build target(s)) -- FAILED.
+     1>Gem.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>GemGame.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>Player.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>Program.obj : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(Texture2D.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(Primitives.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(Content.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(Game.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(IGenericHID.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(Keyboard.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(Font.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(Vector2.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(AudioClip.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>minx.lib(EventHandler.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+     1>MSVCRT.lib(atonexit.obj) : warning LNK4210: .CRT section exists; there may be unhandled static initializers or terminators
+         MINX_GEMGAME.vcxproj -> Z:\MINX\MINX_GEMGAME\Debug\MINX_GEMGAME.exe
+     1>Done Building Project "Z:\MINX\MINX_GEMGAME\MINX_GEMGAME\MINX_GEMGAME.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:09.18
+Time Elapsed 00:00:05.62

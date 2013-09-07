@@ -33,19 +33,19 @@ void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems
 {
 	velocity->X =0;  // reset the players velocity
 	velocity->Y =0; 
-	if(keyboard->getButton(SDLK_UP).state)
+	if(keyboard->getButton(SDLK_w).state)
 	{
 		velocity->Y +=-1;
 	}
-	if(keyboard->getButton(SDLK_DOWN).state)
+	if(keyboard->getButton(SDLK_s).state)
 	{
 		velocity->Y +=1;
 	}
-	if(keyboard->getButton(SDLK_LEFT).state)
+	if(keyboard->getButton(SDLK_a).state)
 	{
 		velocity->X +=-1;
 	}
-	if(keyboard->getButton(SDLK_RIGHT).state)
+	if(keyboard->getButton(SDLK_d).state)
 	{
 		velocity->X +=1;
 	}
@@ -105,8 +105,8 @@ void Player::Update(GameTime * gametime, Keyboard* keyboard, vector<Gem*> * gems
 	}
 #endif
 }
-void Player::Draw(GameTime * gametime, SDL_Surface* screen)
+void Player::Draw(GameTime * gametime, SDL_Renderer* renderer)
 {
 	//Put stuff here to draw your game each frame.
-	Graphics::Primitives::drawRectangle(color, rect->X, rect->Y, rect->Width, rect->Height, screen);
+	Graphics::Primitives::drawRectangle(color, rect->X, rect->Y, rect->Width, rect->Height, renderer);
 }

@@ -27,7 +27,7 @@ MINX_GEMGAME::Gem::Gem(int X, int Y, Color* color, Texture2D* tex):rect(new Rect
 
 }
 
-void MINX_GEMGAME::Gem::Draw(GameTime * gametime, SDL_Surface* screen)
+void MINX_GEMGAME::Gem::Draw(GameTime * gametime, SDL_Renderer* renderer)
 {
 	//Put stuff here to draw your game each frame.
 	//Graphics::Primitives::drawRectangle(color, rect->X, rect->Y, rect->Width, rect->Height, screen);

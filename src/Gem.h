@@ -32,7 +32,7 @@ namespace MINX_GEMGAME
 	{
 		public:
 			Gem(int X, int Y, Color* color, Texture2D* tex);
-			void Draw(GameTime * gametime, SDL_Surface* screen);
+			void Draw(GameTime * gametime, SDL_Renderer* renderer);
 			Rectangle* rect;
 			Color* color;
 			Texture2D* tex;
