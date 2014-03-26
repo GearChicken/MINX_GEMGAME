@@ -100,7 +100,7 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 	{
 		case GameState::MAIN_MENU:
 		{
-			if(keyState.state && !keyState.prevState)
+			if(keyState.state && !keyState.prevState || butState.state && !butState.prevState)
 			{
 				gameState = GameState::GAMEPLAY;
 				roundNumber = 0;
@@ -142,7 +142,7 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 		break;
 		case GameState::GAME_OVER:
 		{
-			if(keyState.state && !keyState.prevState)
+			if(keyState.state && !keyState.prevState || butState.state && !butState.prevState)
 			{
 				gameState = GameState::MAIN_MENU;
 			}
@@ -199,7 +199,7 @@ void MINX_GEMGAME::Draw(GameTime * gameTime)
 		break;
 	}
 	//Put stuff here to draw your game each frame.
-	gameTime->LimitFPS(60);
+	//gameTime->LimitFPS(60);
 	Game::Draw(gameTime);
 }
 
