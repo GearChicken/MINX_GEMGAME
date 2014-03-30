@@ -96,6 +96,10 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 	Button keyState = keyboard->GetKey(Keys::KEY_SPACE);
 	Button butState = gamePad->GetButton(0);
 
+	if(keyboard->GetKey(Keys::KEY_ESCAPE).state)
+	{
+		isRunning = false;
+	}
 	switch(gameState)
 	{
 		case GameState::MAIN_MENU:
