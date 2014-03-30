@@ -53,7 +53,7 @@ MINX_GEMGAME::MINX_GEMGAME() : Game::Game()
 	//This is the constructor. Put stuff here that should happen when the Game is created.
 	srand(time_t(NULL));
 	isRunning = true;
-	Game::SetVideoOptions(640, 480, "MINX_GEMGAME");
+	Game::SetVideoOptions(640, 480, true, "MINX_GEMGAME");
 }
 
 void MINX_GEMGAME::Initialize()
@@ -100,7 +100,7 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 	{
 		case GameState::MAIN_MENU:
 		{
-			if(keyState.state && !keyState.prevState)
+			if(keyState.state && !keyState.prevState || butState.state && !butState.prevState)
 			{
 				gameState = GameState::GAMEPLAY;
 				roundNumber = 0;
@@ -142,7 +142,7 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 		break;
 		case GameState::GAME_OVER:
 		{
-			if(keyState.state && !keyState.prevState)
+			if(keyState.state && !keyState.prevState || butState.state && !butState.prevState)
 			{
 				gameState = GameState::MAIN_MENU;
 			}
@@ -209,7 +209,7 @@ void newRound()
 	gemList.clear();
 	++roundNumber;
 	player->SlowDown();
-	roundTimer = 15 + roundNumber * 3.5;
+	roundTimer = 15 + roundNumber * 1.5;
 	int count = 10 + roundNumber * 4;
 	for(int i = 0; i < count; ++i)
 	{
