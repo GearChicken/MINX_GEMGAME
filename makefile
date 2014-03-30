@@ -1,5 +1,5 @@
 INCDIR = -I/usr/include/freetype2 -I/usr/include/MINX
-CPPFLAGS += -g -Wall -W $(INCDIR) -std=c++11
+CPPFLAGS += -g -Wall -W $(INCDIR) -std=c++11 -D LINUX
 LFLAGS = -lMINX -lGL -lfreetype -lglfw -lX11 -lXxf86vm -lpthread -lXrandr -lXi -lvlc
 CXX = g++
 SOURCES = $(wildcard ./src/*.cpp)

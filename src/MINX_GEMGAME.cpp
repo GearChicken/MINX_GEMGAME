@@ -203,7 +203,7 @@ void MINX_GEMGAME::Draw(GameTime * gameTime)
 		break;
 	}
 	//Put stuff here to draw your game each frame.
-	gameTime->LimitFPS(60);
+	//gameTime->LimitFPS(60);
 	Game::Draw(gameTime);
 }
 
