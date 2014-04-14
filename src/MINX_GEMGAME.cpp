@@ -96,6 +96,10 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 	Button keyState = keyboard->GetKey(Keys::KEY_SPACE);
 	Button butState = gamePad->GetButton(0);
 
+	if(keyboard->GetKey(Keys::KEY_ESCAPE).state)
+	{
+		isRunning = false;
+	}
 	switch(gameState)
 	{
 		case GameState::MAIN_MENU:
@@ -209,7 +213,7 @@ void newRound()
 	gemList.clear();
 	++roundNumber;
 	player->SlowDown();
-	roundTimer = 15 + roundNumber * 3.5;
+	roundTimer = 15 + roundNumber * 1.5;
 	int count = 10 + roundNumber * 4;
 	for(int i = 0; i < count; ++i)
 	{
