@@ -53,7 +53,7 @@ MINX_GEMGAME::MINX_GEMGAME() : Game::Game()
 	//This is the constructor. Put stuff here that should happen when the Game is created.
 	srand(time_t(NULL));
 	isRunning = true;
-	Game::SetVideoOptions(640, 480, "MINX_GEMGAME");
+	Game::SetVideoOptions(640, 480, true, "MINX_GEMGAME");
 }
 
 void MINX_GEMGAME::Initialize()
