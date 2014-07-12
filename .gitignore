@@ -1,0 +1,13 @@
+*.o
+ipch/
+Debug/
+Release/
+bin/
+MINX_GEMGAME/Debug/
+MINX_GEMGAME/Release/
+packages/
+*opensdf
+*.sdf
+*.suo
+*.vsp
+*.psess
