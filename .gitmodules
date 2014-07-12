@@ -1,0 +1,3 @@
+[submodule "minx"]
+	path = minx
+	url = https://github.com/GearChicken/MINX.git
