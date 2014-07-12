@@ -48,7 +48,7 @@ enum class GameState
 
 GameState gameState;
 
-MINX_GEMGAME::MINX_GEMGAME() : Game::Game()
+MINX_GEMGAME::MINX_GEMGAME() : Game()
 {
 	//This is the constructor. Put stuff here that should happen when the Game is created.
 	srand(time_t(NULL));
@@ -77,8 +77,8 @@ void MINX_GEMGAME::LoadContent()
 
 	textureBatch = new TextureBatch(ShaderFactory::GetInstance()->GetShaderAtIndex(0));
 
-	blip = new SoundFile("../content/blip.mp3", this);
-	font = new Font(freeTypeLibrary, "../content/Ubuntu-B.ttf", ShaderFactory::GetInstance()->GetShaderAtIndex(1));
+	blip = new SoundFile("../content/se_bomb.ogg");
+	font = new Font(this, "../content/Ubuntu-B.ttf", ShaderFactory::GetInstance()->GetShaderAtIndex(1));
 
 	newRound();
 }
@@ -96,7 +96,7 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 	Button keyState = keyboard->GetKey(Keys::KEY_SPACE);
 	Button butState = gamePad->GetButton(0);
 
-	if(keyboard->GetKey(Keys::KEY_ESCAPE).state)
+	if(keyboard->GetKey(Keys::KEY_ESCAPE).GetState())
 	{
 		isRunning = false;
 	}
@@ -104,7 +104,7 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 	{
 		case GameState::MAIN_MENU:
 		{
-			if(keyState.state && !keyState.prevState || butState.state && !butState.prevState)
+			if(keyState.GetState() && !keyState.GetPrevState() || butState.GetState() && !butState.GetPrevState())
 			{
 				gameState = GameState::GAMEPLAY;
 				roundNumber = 0;
@@ -146,21 +146,19 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 		break;
 		case GameState::GAME_OVER:
 		{
-			if(keyState.state && !keyState.prevState || butState.state && !butState.prevState)
+			if(keyState.GetState() && !keyState.GetPrevState() || butState.GetState() && !butState.GetPrevState())
 			{
 				gameState = GameState::MAIN_MENU;
 			}
 		}
 		break;
 	}
-
-	gameTime->LimitFPS(60);
 	Game::Update(gameTime);
 }
 
 void MINX_GEMGAME::Draw(GameTime * gameTime)
 {
-	gameWindow->Clear();
+	SetRenderTarget(NULL, Color());
 
 	switch(gameState)
 	{
