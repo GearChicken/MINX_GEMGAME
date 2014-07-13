@@ -21,20 +21,10 @@ Player::Player(Rectangle rect, Keyboard* keyboard, GamePad* gamePad)
 void Player::HandleInput(GameTime* gameTime)
 {
 	Vector2 velocity(0,0);
-	/*if(gamePad->IsConnected())
-	{
-		velocity.X += gamePad->GetAxis(0).GetValue();
-		velocity.Y += gamePad->GetAxis(1).GetValue();
-		if(velocity.Length() < 0.25)
-			velocity = Vector2(0,0);
-	}*/
-	if(velocity == Vector2(0,0))
-	{
-		velocity.X += (keyboard->GetKey(Keys::KEY_LEFT).GetState() || keyboard->GetKey(Keys::KEY_A).GetState()) ? -1 : 0;
-		velocity.X += (keyboard->GetKey(Keys::KEY_RIGHT).GetState() || keyboard->GetKey(Keys::KEY_D).GetState()) ? 1 : 0;
-		velocity.Y += (keyboard->GetKey(Keys::KEY_UP).GetState() || keyboard->GetKey(Keys::KEY_W).GetState()) ? -1 : 0;
-		velocity.Y += (keyboard->GetKey(Keys::KEY_DOWN).GetState() || keyboard->GetKey(Keys::KEY_S).GetState()) ? 1 : 0;
-	}
+	velocity.X += (keyboard->GetKey(Keys::KEY_LEFT).GetState() || keyboard->GetKey(Keys::KEY_A).GetState()) ? -1 : 0;
+	velocity.X += (keyboard->GetKey(Keys::KEY_RIGHT).GetState() || keyboard->GetKey(Keys::KEY_D).GetState()) ? 1 : 0;
+	velocity.Y += (keyboard->GetKey(Keys::KEY_UP).GetState() || keyboard->GetKey(Keys::KEY_W).GetState()) ? -1 : 0;
+	velocity.Y += (keyboard->GetKey(Keys::KEY_DOWN).GetState() || keyboard->GetKey(Keys::KEY_S).GetState()) ? 1 : 0;
 	velocity *= gameTime->GetDeltaTimeSeconds() * speed;
 
 
