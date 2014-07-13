@@ -53,7 +53,7 @@ MINX_GEMGAME::MINX_GEMGAME() : Game()
 	//This is the constructor. Put stuff here that should happen when the Game is created.
 	srand(time_t(NULL));
 	isRunning = true;
-	Game::SetVideoOptions(640, 480, true, "MINX_GEMGAME");
+	Game::SetVideoOptions(640, 480, false, "MINX_GEMGAME");
 }
 
 void MINX_GEMGAME::Initialize()
@@ -158,7 +158,7 @@ void MINX_GEMGAME::Update(GameTime * gameTime)
 
 void MINX_GEMGAME::Draw(GameTime * gameTime)
 {
-	SetRenderTarget(NULL, Color());
+	SetRenderTarget(NULL, Color::CornflowerBlue);
 
 	switch(gameState)
 	{
@@ -168,6 +168,7 @@ void MINX_GEMGAME::Draw(GameTime * gameTime)
 			menuText << "Welcome to the Gem Game! ";
 			menuText << "Press Spacebar to Begin!";
 			font->RenderText(menuText.str(), 10, 10, 16);
+			
 		}
 		break;
 		case GameState::GAMEPLAY:
@@ -178,17 +179,19 @@ void MINX_GEMGAME::Draw(GameTime * gameTime)
 			}
 		
 			player->Draw(textureBatch);
-	
+
 			textureBatch->DrawLoadedTextures();
+			
 			std::stringstream infoText;
 			infoText << "Round #: " << roundNumber << "  ";
 			infoText << "Total Score: " << playerScore << " ";
-			infoText << "Time Remaining: " << roundTimer;
 			font->RenderText(infoText.str(), 10, 10, 16);
+			
 		}
 		break;
 		case GameState::GAME_OVER:
 		{
+			
 			std::stringstream gameOverText;
 			gameOverText << "Game Over! ";
 			gameOverText << "You collected " << playerScore << " gems! ";
@@ -197,11 +200,12 @@ void MINX_GEMGAME::Draw(GameTime * gameTime)
 			gameOverText.str(std::string());
 			gameOverText << "Press Spacebar to return to the main menu!";
 			font->RenderText(gameOverText.str(), 10, 25, 16);
+			
 		}
 		break;
 	}
 	//Put stuff here to draw your game each frame.
-	//gameTime->LimitFPS(60);
+	gameTime->LimitFPS(60);
 	Game::Draw(gameTime);
 }
 
